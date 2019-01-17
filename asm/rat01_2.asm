@@ -11,7 +11,7 @@ main_loop:  MOV     R29,0xFC
             MOV     R30,0xFA
             MOV     R31,0x05
             EXOR    R30,R31
-            SUB     R31,R29
+            SUB     R30,R29
             BRNE    0x041     
             AND     R0,R0
 			 
