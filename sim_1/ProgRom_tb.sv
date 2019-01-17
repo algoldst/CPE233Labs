@@ -30,8 +30,8 @@ logic [17:0] PROG_IR; // Outputs the 18-bit instruction contained at the address
 ProgRom ProgRom_tb(.*);
  
 always begin
-    PROG_CLK = 0; #5;
     PROG_CLK = 1; #5;
+    PROG_CLK = 0; #5;
 end
 
 initial begin
