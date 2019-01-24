@@ -1,6 +1,8 @@
 # CPE 233 Labs
 #### Cal Poly, SLO.
 
-Labs teach the RAT Assembly language, and focus on building a computer that can read assembled RAT memory files.
+Labs teach the RAT Assembly language, and focus on building a computer that can run assembled RAT programs.
 
-Using Digilent Basys3 Board: xc7a35tcpg236-1
+Uses CPE 233 Lab Manual by Professors Paul Hummel, Jeff Gerfen, & James Mealey.
+
+Digilent Basys3 Board: xc7a35tcpg236-1
