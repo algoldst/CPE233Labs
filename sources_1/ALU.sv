@@ -39,7 +39,7 @@ module ALU(
             end
 
             4'h1: begin // ADDC (a+b+carry)
-                resultC = a+b+c;
+                resultC = a+b+cIn;
                 c = resultC[8];
             end
 
@@ -49,7 +49,7 @@ module ALU(
             end
 
             4'h3: begin // SUBC (a-b-c)
-                resultC = a-b-c;
+                resultC = a-b-cIn;
                 c = resultC[8];
             end
 
@@ -73,12 +73,12 @@ module ALU(
             // 4'h8: TEST --> Bundled with 4'h5: AND
 
             4'h9: begin // LSL
-                resultC = { a[6:0], c };
+                resultC = { a[6:0], cIn };
                 c = a[7];
             end
 
             4'hA: begin // LSR
-                resultC = { c, a[7:1] };
+                resultC = { cIn, a[7:1] };
                 c = a[0];
             end
 
