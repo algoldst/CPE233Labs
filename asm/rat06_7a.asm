@@ -35,7 +35,7 @@
 .EQU B5_MASK = 0x20              ; mask all but bit5
 .EQU B6_MASK = 0x40              ; mask all but bit6
 .EQU B7_MASK = 0x80              ; mask all but bit7
-.EQU INSIDE_FOR_COUNT = 0xAA	 ; Loop delays, ~0.5
+.EQU INSIDE_FOR_COUNT = 0xAA	 ; Loop delays, ~0.5    ;original xAA for all 3 counts. (Set all three values to 0x01 for debugging!)
 .EQU MIDDLE_FOR_COUNT = 0xAA	 ; second delay for
 .EQU OUTSIDE_FOR_COUNT = 0xAA	 ; each LED. 0xAA default
 ;--------------------------------------------------------------------    

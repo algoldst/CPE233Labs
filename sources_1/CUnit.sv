@@ -209,7 +209,7 @@ module CUnit(
                         alu_sel = 3;
                         
                         rf_wr = 1;
-                        rf_wr_sel = 1;
+                        rf_wr_sel = 0;
                         
                         flg_c_ld = 1;
                         flg_z_ld = 1;
