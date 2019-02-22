@@ -29,6 +29,11 @@ module CUnit(
     output logic rf_wr,
     output logic [1:0] rf_wr_sel,
     
+    output logic sp_ld, sp_incr, sp_decr,
+    
+    output logic scr_we, scr_data_sel, 
+    output logic [1:0] scr_addr_sel,
+    
     output logic pc_ld, pc_inc,
     output logic [1:0] pc_mux_sel,
     
