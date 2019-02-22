@@ -269,8 +269,29 @@ module CUnit(
                     end
                     
                     // LD
-                    // ST
+                    7'b00010_10, //reg,reg
+                    7'b11100_00, //reg,imm
+                    7'b11100_01,
+                    7'b11100_10,
+                    7'b11100_11: begin
+                        if(opcode == 7'b10_10) scr_addr_sel = 0;
+                        else scr_addr_sel = 1;
+                        
+                        rf_wr_sel = 1;
+                    end
                     
+                    // ST
+                    7'b00010_11, //reg,reg
+                    7'b11101_00, //reg,imm
+                    7'b11101_01,
+                    7'b11101_10,
+                    7'b11101_11: begin
+                        if(opcode == 7'b10_11) scr_addr_sel = 0;
+                        else scr_addr_sel = 1;
+                        scr_data_sel = 0;
+                        
+                        scr_we = 1;
+                    end
                     
                     // BRANCHES
                     7'b00100_00, // BRN
@@ -290,6 +311,16 @@ module CUnit(
                     end
                     
                     // CALL
+                    7'b00100_01: begin
+                        pc_ld = 1;
+                        pc_mux_sel = 0;
+                        
+                        scr_data_sel = 1;
+                        scr_we = 1;
+                        scr_addr_sel = 3; // pushing onto stack --> use address [ptr-1]
+                        
+                        sp_decr = 1;
+                    end
                     
                     // BITSHIFTS
                     7'b01000_00, //LSL
@@ -312,7 +343,35 @@ module CUnit(
                         flg_z_ld = 1;
                     end
                     
-                    /* Other commands to add later. */
+                    // PUSH
+                    7'b01001_01: begin
+                        scr_data_sel = 0;
+                        scr_we = 1;
+                        scr_addr_sel = 3;
+                        
+                        sp_decr = 1;
+                    end
+                    
+                    // POP
+                    7'b01001_10: begin
+                        scr_addr_sel = 2;
+                        
+                        sp_incr = 1;
+                        
+                        rf_wr_sel = 1;
+                        rf_wr = 1;
+                    end
+                    
+                    // WSP
+                    7'b01010_00: begin
+                        sp_ld = 1;
+                    end
+                    
+                    // RSP
+                    7'b01010_01: begin
+                        rf_wr_sel = 2;
+                        rf_wr = 1;
+                    end
                     
                     // CLC
                     7'b01100_00: begin
@@ -323,6 +382,17 @@ module CUnit(
                     7'b01100_01: begin
                         flg_c_set = 1;
                     end
+                    
+                    // RET
+                    7'b01100_10: begin
+                        
+                    end
+                    
+                    // Interrupts (not until next lab)
+                    // SEI
+                    // CLI
+                    // RETID
+                    // RETIE
                     
                     default: begin
                         $display("ERROR: DEFAULT --> DIDN'T WRITE THIS OPCODE: %b", opcode);
