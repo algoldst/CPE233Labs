@@ -98,13 +98,13 @@ set_property PACKAGE_PIN V7 [get_ports {SSEG[0]}]
 	set_property IOSTANDARD LVCMOS33 [get_ports {SSEG[0]}]
 
 set_property PACKAGE_PIN U2 [get_ports {DISP_EN[0]}]					
-	set_property IOSTDISP_ENDARD LVCMOS33 [get_ports {DISP_EN[0]}]
-set_property PACKAGE_PIN U4 [get_ports {DISP_EN[1]}]					
-	set_property IOSTDISP_ENDARD LVCMOS33 [get_ports {DISP_EN[1]}]
-set_property PACKAGE_PIN V4 [get_ports {DISP_EN[2]}]					
-	set_property IOSTDISP_ENDARD LVCMOS33 [get_ports {DISP_EN[2]}]
-set_property PACKAGE_PIN W4 [get_ports {DISP_EN[3]}]					
-	set_property IOSTDISP_ENDARD LVCMOS33 [get_ports {DISP_EN[3]}]
+    set_property IOSTANDARD LVCMOS33 [get_ports {DISP_EN[0]}]
+set_property PACKAGE_PIN U4 [get_ports {DISP_EN[1]}]                    
+    set_property IOSTANDARD LVCMOS33 [get_ports {DISP_EN[1]}]
+set_property PACKAGE_PIN V4 [get_ports {DISP_EN[2]}]                    
+    set_property IOSTANDARD LVCMOS33 [get_ports {DISP_EN[2]}]
+set_property PACKAGE_PIN W4 [get_ports {DISP_EN[3]}]                    
+    set_property IOSTANDARD LVCMOS33 [get_ports {DISP_EN[3]}]
 
 
 ##Buttons
