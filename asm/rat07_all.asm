@@ -1,8 +1,8 @@
 ; RAT Phase 2 Test Program
 
-.EQU time_INSIDE_FOR_COUNT    = 0x5E
-.EQU time_MIDDLE_FOR_COUNT    = 0xFF
-.EQU time_OUTSIDE_FOR_COUNT   = 0xFF
+.EQU time_INSIDE_FOR_COUNT    = 0x02
+.EQU time_MIDDLE_FOR_COUNT    = 0x02
+.EQU time_OUTSIDE_FOR_COUNT   = 0x02
 
 ;assumes 7 seg decoder is on port 81, buttons on FF, and leds on 80
 .EQU led_port = 0x40
