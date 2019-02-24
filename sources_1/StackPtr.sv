@@ -28,7 +28,7 @@ module StackPtr(
     );
     
     always_ff @(posedge clk) begin
-        if(rst) dOut = '1;
+        if(rst) dOut = '0;
         else if(ld) dOut = dIn;
         else if(incr) dOut++;
         else if(decr) dOut--;
