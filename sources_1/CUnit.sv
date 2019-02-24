@@ -385,7 +385,10 @@ module CUnit(
                     
                     // RET
                     7'b01100_10: begin
-                        
+                        sp_incr = 1;
+                        scr_addr_sel = 2;
+                        pc_ld = 1;
+                        pc_mux_sel = 1;
                     end
                     
                     // Interrupts (not until next lab)

@@ -25,8 +25,10 @@ module Rat_Wrapper_tb(
     
     logic CLK;
     logic BTNC = 0;
-    logic [7:0] SWITCHES;
+    logic [7:0] SWITCHES = 0;
     logic [7:0] LEDS;
+    logic [7:0] SSEG; // SSEG segments
+    logic [3:0] DISP_EN;
     Rat_Wrapper rat_wrapper_tb( .* );
     
     always begin

@@ -43,7 +43,7 @@ module Rat_Wrapper(
     // Register definitions for output devices ///////////////////////////////
     logic [7:0]   s_input_port;
     logic [7:0]   r_leds = 8'h00;
-    logic [7:0]   r_sseg = 8'h01;
+    logic [7:0]   r_sseg = 8'h00;
 
     // Declare RAT_CPU ///////////////////////////////////////////////////////
     MCU MCU(.in_port(s_input_port), .out_port(s_output_port),
