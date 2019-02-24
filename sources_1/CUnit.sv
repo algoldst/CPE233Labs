@@ -72,6 +72,10 @@ module CUnit(
         flg_ld_sel = 0; flg_shad_ld = 0;
         io_strb = 0;
         rst = 0;
+        
+        sp_ld = 0; sp_incr = 0; sp_decr = 0;
+        scr_we = 0; scr_data_sel = 0; 
+        scr_addr_sel = 0;
             
         case(PS)
             ST_INIT: begin
