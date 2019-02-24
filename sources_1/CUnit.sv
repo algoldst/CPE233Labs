@@ -281,6 +281,7 @@ module CUnit(
                         if(opcode == 7'b10_10) scr_addr_sel = 0;
                         else scr_addr_sel = 1;
                         
+                        rf_wr = 1;
                         rf_wr_sel = 1;
                     end
                     
