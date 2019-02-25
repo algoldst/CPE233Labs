@@ -134,11 +134,10 @@ multNum_loop:	ADD  R4, R2
 multNum_ret:	RET
 
 expNum:								; squareNum(num = r1, exp=r3) >> r4
-				SUB  R3, 0x01
-				BREQ expNum_pow1
+				CMP  R3, 0x01
 				BRCS expNum_pow0
 				MOV  R4, 0x00
-				MOV  R2, R1
+				MOV  R2, 0x01
 expNum_loop:	CALL varStore
 				CALL multNum
 				MOV  R31, R4
@@ -148,10 +147,8 @@ expNum_loop:	CALL varStore
 				SUB  R3, 0x01
 				BRNE expNum_loop
 				RET
-expNum_pow1:	MOV  R4, R1				; return num^1
-				RET
 expNum_pow0:	MOV  R4, 0x01			; return num^0
-
+                RET
 
 
 
