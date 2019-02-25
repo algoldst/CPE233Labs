@@ -18,7 +18,7 @@
 .CSEG
 
 setup:			ADD R0, R0
-				BRN 0x29					; --> test
+				BRN start
 
 varStore:		ST   R1, (R0)				; varStore(r0 = var "stack" pointer)
 				ADD  R0, 0x01
@@ -58,28 +58,6 @@ varRet:			SUB  R0, 0x01
 				SUB  R0, 0x01
 				LD   R1, (R0)
 				RET
-
-test:			MOV  R3, 0x03
-				MOV  R7, 0x07
-				CALL varStore
-				MOV  R2, 0x08
-				MOV  R7, 0x05
-				CALL varRet
-				
-				MOV  R1, R3
-				MOV  R2, R7
-				CALL varStore
-				CALL multNum
-				CALL varRet
-				CALL expNum
-
-				CALL varStore
-				MOV  R1, 0x55
-				MOV  R2, 0x10
-				CALL divNum
-				MOV  R31, R3
-				CALL varRet
-				MOV R4, R31
 
 start:			IN   R10, SWITCHES		; IN >> r10
 				
