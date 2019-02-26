@@ -1,6 +1,6 @@
 ; RAT Phase 2 Test Program
 
-.EQU time_INSIDE_FOR_COUNT    = 0xFE
+.EQU time_INSIDE_FOR_COUNT    = 0xAA
 .EQU time_MIDDLE_FOR_COUNT    = 0xFF
 .EQU time_OUTSIDE_FOR_COUNT   = 0xFF
 
