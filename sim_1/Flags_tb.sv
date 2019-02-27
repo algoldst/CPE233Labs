@@ -33,25 +33,35 @@ module Flags_tb(
     Flags flags_tb( .* );
     
     always begin
-        clk <= 1; #5;
         clk <= 0; #5;
+        clk <= 1; #5;
     end
     
     initial begin
-        #5;
-        c_in = 1; z_in = 1;
+        // Both C,Z high
+        c_in <= 1; z_in <= 1;
         #10;
         
-        flg_c_ld <= 1; flg_z_ld <= 1; 
+        // Load flags
+        flg_c_ld = 1; flg_z_ld = 1; 
         #10;
         
+        // Load shadow flags
         flg_c_ld <= 0; flg_z_ld <= 0;
+        flg_shad_ld <= 1; 
+        #10;
+        
+        // Clear regs
+        flg_shad_ld <= 0;
         flg_c_clr <= 1;
         #10;
         
+        // Load shad >> c,z
         flg_c_clr <= 0;
-        flg_c_set <= 1;
+        flg_ld_sel <= 1;
+        flg_z_ld <=1; flg_c_ld <= 1;
         #10;
+        
     end
     
 endmodule

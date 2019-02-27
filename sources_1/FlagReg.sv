@@ -15,9 +15,9 @@ module FlagReg(
     output logic dOut
     );
     always_ff @(posedge clk) begin
-        if (reset) dOut = 0;
-        else if (set) dOut = 1;
-        else if (wr_en) dOut = dIn;
-        else dOut = dOut;
+        if (reset) dOut <= 0;
+        else if (set) dOut <= 1;
+        else if (wr_en) dOut <= dIn;
+        else dOut <= dOut;
     end
 endmodule
