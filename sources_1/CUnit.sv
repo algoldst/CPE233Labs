@@ -44,12 +44,14 @@ module CUnit(
     output logic flg_z_ld,
     output logic flg_ld_sel, flg_shad_ld,
     
+    output logic i_set, i_clr,
+    
     output logic io_strb,
     
     output logic rst
     );
     
-    typedef enum {ST_INIT, ST_FETCH, ST_EXEC} State;
+    typedef enum {ST_INIT, ST_FETCH, ST_EXEC, ST_INTER} State;
     State NS, PS = ST_INIT;
     
     logic [6:0] opcode;
@@ -85,6 +87,20 @@ module CUnit(
             ST_FETCH: begin
                 pc_inc = 1;
                 NS = ST_EXEC;
+            end
+            ST_INTER: begin
+                NS = ST_FETCH;
+                pc_mux_sel = 2;
+                
+                scr_data_sel = 1;
+                scr_addr_sel = 3;
+                scr_we = 1;
+                sp_decr = 1;
+                
+                flg_shad_ld = 1;
+                
+                // Also need to mask interrupt. i_clr = 1 ?
+                
             end
             ST_EXEC: begin
                 case(opcode) // Select operation for this opcode
@@ -396,11 +412,33 @@ module CUnit(
                         pc_mux_sel = 1;
                     end
                     
-                    // Interrupts (not until next lab)
+                    // Interrupts
                     // SEI
+                    7'b01101_00: begin
+                        i_set = 1;
+                    end
                     // CLI
+                    7'b01101_01: begin
+                        i_clr = 1;
+                    end
                     // RETID
+                    7'b0110110: begin
+                        pc_ld = 1;
+                        sp_incr = 1;
+                        i_clr = 1;
+                        flg_ld_sel = 1;
+                        flg_z_ld = 1;
+                        flg_c_ld = 1;
+                    end
                     // RETIE
+                    7'b01101_11: begin
+                        pc_ld = 1;
+                        sp_incr = 1;
+                        i_set = 1;
+                        flg_ld_sel = 1;
+                        flg_z_ld = 1;
+                        flg_c_ld = 1;
+                    end
                     
                     default: begin
                         $display("ERROR: DEFAULT --> DIDN'T WRITE THIS OPCODE: %b", opcode);

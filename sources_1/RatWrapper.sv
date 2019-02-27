@@ -15,6 +15,7 @@
 module Rat_Wrapper(
     input CLK,
     input BTNC,
+    input BTNL,
     input [7:0] SWITCHES,
     output [7:0] LEDS,
     output [7:0] SSEG, // SSEG segments
@@ -77,7 +78,7 @@ module Rat_Wrapper(
      
     // Connect Signals ///////////////////////////////////////////////////////
     assign s_reset = BTNC;
-    assign s_interrupt = 1'b0;  // no interrupt used yet
+    //assign s_interrupt = 1'b0;  // no interrupt used yet
      
     // Output Assignments ////////////////////////////////////////////////////
     assign LEDS = r_leds;
@@ -85,5 +86,6 @@ module Rat_Wrapper(
     // SSEG Display    ////////////////////////////////////////////////////
     SevSegDisp sseg(.CLK(CLK), .MODE(0), .DATA_IN(r_sseg), .CATHODES(SSEG), 
                     .ANODES(DISP_EN) );  
-   
+   // Debounce Circuit
+    Debounce debounce(.CLK(CLK), .BTN(BTNL), .DB_BTN(s_interrupt));
     endmodule
