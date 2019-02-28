@@ -60,6 +60,8 @@ module CUnit(
     always_ff @(posedge clk) begin
         if (reset == 1)
             PS <= ST_INIT;
+        else if (interrupt == 1)
+            PS <= ST_INTER;
         else
             PS <= NS;
     end
@@ -72,6 +74,7 @@ module CUnit(
         flg_c_set = 0; flg_c_clr = 0; flg_c_ld = 0;
         flg_z_ld = 0;
         flg_ld_sel = 0; flg_shad_ld = 0;
+        i_set = 0; i_clr = 0;
         io_strb = 0;
         rst = 0;
         
@@ -91,6 +94,7 @@ module CUnit(
             ST_INTER: begin
                 NS = ST_FETCH;
                 pc_mux_sel = 2;
+                pc_ld = 1;
                 
                 scr_data_sel = 1;
                 scr_addr_sel = 3;
@@ -424,7 +428,9 @@ module CUnit(
                     // RETID
                     7'b0110110: begin
                         pc_ld = 1;
+                        pc_mux_sel = 1;
                         sp_incr = 1;
+                        scr_addr_sel = 2;
                         i_clr = 1;
                         flg_ld_sel = 1;
                         flg_z_ld = 1;
@@ -433,8 +439,12 @@ module CUnit(
                     // RETIE
                     7'b01101_11: begin
                         pc_ld = 1;
+                        pc_mux_sel = 1;
+                        
                         sp_incr = 1;
+                        scr_addr_sel = 2;
                         i_set = 1;
+                        
                         flg_ld_sel = 1;
                         flg_z_ld = 1;
                         flg_c_ld = 1;

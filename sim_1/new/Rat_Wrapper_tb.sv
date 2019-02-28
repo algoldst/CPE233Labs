@@ -25,6 +25,7 @@ module Rat_Wrapper_tb(
     
     logic CLK;
     logic BTNC = 0;
+    logic BTNL = 0; // interrupt
     logic [7:0] SWITCHES = 0;
     logic [7:0] LEDS;
     logic [7:0] SSEG; // SSEG segments
@@ -37,6 +38,9 @@ module Rat_Wrapper_tb(
     end
     
     initial begin
-    
+        #300;
+        BTNL = 1;
+        #10;
+        BTNL = 0;
     end
 endmodule

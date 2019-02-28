@@ -12,7 +12,7 @@ Precedence: reset > set > wr_en
 
 module FlagReg(
     input clk, dIn, wr_en, set, reset,
-    output logic dOut
+    output logic dOut = 0
     );
     always_ff @(posedge clk) begin
         if (reset) dOut <= 0;

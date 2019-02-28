@@ -40,16 +40,17 @@ module Rat_Wrapper(
     logic s_interrupt;
     logic s_reset;
     logic s_clk_50 = 1'b0;     // 50 MHz clock
+    logic btn_debounce;
     
     // Register definitions for output devices ///////////////////////////////
     logic [7:0]   s_input_port;
     logic [7:0]   r_leds = 8'h00;
-    logic [7:0]   r_sseg = 8'h00;
+    logic [15:0]   r_sseg = 8'h00;
 
     // Declare RAT_CPU ///////////////////////////////////////////////////////
     MCU MCU(.in_port(s_input_port), .out_port(s_output_port),
                 .port_id(s_port_id), .io_strb(s_load), .reset(s_reset),
-                .interrupt(s_interrupt), .clk(s_clk_50));
+                .interrupt(s_interrupt /*BTNL*/), .clk(s_clk_50)); //BTNL for bypassing Debounce (do this in Sim!)
     
     // Clock Divider to create 50 MHz Clock //////////////////////////////////
     always_ff @(posedge CLK) begin
