@@ -123,11 +123,11 @@ set_property PACKAGE_PIN W19 [get_ports BTNL]
 
 ##Pmod Header JA
 ##Sch name = JA1
-#set_property PACKAGE_PIN J1 [get_ports {sclk}]					
-#	set_property IOSTANDARD LVCMOS33 [get_ports {sclk}]
-##Sch name = JA2
-#set_property PACKAGE_PIN L2 [get_ports {JA[1]}]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports {JA[1]}]
+#set_property PACKAGE_PIN J1 [get_ports {debouncePmod}]					
+#	set_property IOSTANDARD LVCMOS33 [get_ports {debouncePmod}]
+###Sch name = JA2
+#set_property PACKAGE_PIN L2 [get_ports {interruptPmod}]					
+#	set_property IOSTANDARD LVCMOS33 [get_ports {interruptPmod}]
 ##Sch name = JA3
 #set_property PACKAGE_PIN J2 [get_ports {JA[2]}]					
 	#set_property IOSTANDARD LVCMOS33 [get_ports {JA[2]}]

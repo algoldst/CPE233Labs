@@ -30,7 +30,7 @@ module SevSegDisp(
     output [7:0] CATHODES,
     output [3:0] ANODES
     );
-
+    
     logic [15:0] BCD_Val;
     logic [15:0] Hex_Val;
     

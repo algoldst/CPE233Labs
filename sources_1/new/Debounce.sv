@@ -27,9 +27,9 @@ module Debounce(
     output logic DB_BTN
     );
     
-    const logic [7:0] c_LOW_GOING_HIGH_CLOCKS = 8'h19; // 25 clks
-    const logic [7:0] c_HIGH_GOING_LOW_CLOCKS = 8'h33; // 50 clks
-    const logic [7:0] c_ONE_SHOT_CLOCKS       = 8'h03; // 3 clks
+    const logic [7:0] c_LOW_GOING_HIGH_CLOCKS = 8'h64; // 25 clks   originally x19
+    const logic [7:0] c_HIGH_GOING_LOW_CLOCKS = 8'h64; // 50 clks   originally x33
+    const logic [7:0] c_ONE_SHOT_CLOCKS       = 8'h03; // 3 clks    originally x03
 
     typedef enum { ST_init, ST_BTN_low, ST_BTN_low_to_high, ST_BTN_high, ST_BTN_high_to_low, ST_one_shot} STATES;
     

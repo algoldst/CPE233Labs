@@ -18,7 +18,7 @@
 .DSEG
 .ORG 0x00
 
-.equ loop_count = 0x01     ; extend the loop count
+.equ loop_count = 0xFF     ; xFF, extend the loop count, x01 for debugging
 .equ led_port   = 0x40
 .equ ssg_port	= 0x81
 

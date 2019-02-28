@@ -42,5 +42,13 @@ module Rat_Wrapper_tb(
         BTNL = 1;
         #10;
         BTNL = 0;
+        #300;
+        BTNL = 1;
+        #10;
+        BTNL = 0;
+        #300;
+        BTNL = 1;
+        #10;
+        BTNL = 0;
     end
 endmodule

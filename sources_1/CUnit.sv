@@ -60,8 +60,7 @@ module CUnit(
     always_ff @(posedge clk) begin
         if (reset == 1)
             PS <= ST_INIT;
-        else if (interrupt == 1)
-            PS <= ST_INTER;
+        
         else
             PS <= NS;
     end
@@ -103,10 +102,13 @@ module CUnit(
                 
                 flg_shad_ld = 1;
                 
-                // Also need to mask interrupt. i_clr = 1 ?
-                
+                i_clr = 1;
             end
             ST_EXEC: begin
+                if (interrupt == 1)
+                    NS <= ST_INTER;
+                else
+                    NS <= ST_FETCH;
                 case(opcode) // Select operation for this opcode
                     // opcode AND
                     7'b00000_00, //reg,reg
@@ -454,7 +456,6 @@ module CUnit(
                         $display("ERROR: DEFAULT --> DIDN'T WRITE THIS OPCODE: %b", opcode);
                     end
                 endcase
-                NS = ST_FETCH;
             end
         endcase
     

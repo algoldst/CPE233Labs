@@ -20,6 +20,7 @@ module Rat_Wrapper(
     output [7:0] LEDS,
     output [7:0] SSEG, // SSEG segments
     output [3:0] DISP_EN // SSEG on/off
+    //, output debouncePmod, interruptPmod // for debugging / seeing interrupt on scope
     );
     
     // INPUT PORT IDS ////////////////////////////////////////////////////////
@@ -83,10 +84,14 @@ module Rat_Wrapper(
      
     // Output Assignments ////////////////////////////////////////////////////
     assign LEDS = r_leds;
-   
+    
     // SSEG Display    ////////////////////////////////////////////////////
-    SevSegDisp sseg(.CLK(CLK), .MODE(0), .DATA_IN(r_sseg), .CATHODES(SSEG), 
+    SevSegDisp sseg(.CLK(CLK), .MODE(1), .DATA_IN(r_sseg), .CATHODES(SSEG), 
                     .ANODES(DISP_EN) );  
-   // Debounce Circuit
-    Debounce debounce(.CLK(CLK), .BTN(BTNL), .DB_BTN(s_interrupt));
+    // Debounce Circuit
+    //logic t_btnL = BTNL;                  // for debug
+    Debounce debounce(.CLK(s_clk_50), .BTN(BTNL), .DB_BTN(s_interrupt));
+    
+    //assign interruptPmod = t_btnL;        // for debug
+    //assign debouncePmod = s_interrupt;    // for debug
     endmodule
