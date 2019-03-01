@@ -28,19 +28,23 @@ module KeyFsm(
     output logic [3:0] keyOut
     );
     
+    // States: Provides power to each row to check which (if any) column has power. <-- Multiplexor
     typedef enum {CHECK_B, CHECK_G, CHECK_F, CHECK_D} State;
     State NS, PS = CHECK_B;
     
+    // PS/NS Logic
     always_ff @(posedge clk) begin
         PS <= NS;
     end
     
     always_comb begin
+        // Set all outputs low initially
         B = 0; G = 0; F = 0; D = 0;
-        if(C | A | E) press = 1;
-            else press = 0;
+        
+        if(C | A | E) press = 1;    // If any column has power, press = 1
+        else press = 0;
         case(PS)
-            CHECK_B: begin
+            CHECK_B: begin              // 1, 2, 3
                 B = 1;
                 if(C) keyOut = 1;
                 else if(A) keyOut = 2;
@@ -48,7 +52,7 @@ module KeyFsm(
                 else keyOut = 13;
                 NS = CHECK_G;
             end
-            CHECK_G: begin
+            CHECK_G: begin              // 4, 5, 6
                 G = 1;
                 if(C) keyOut = 4;
                 else if(A) keyOut = 5;
@@ -56,7 +60,7 @@ module KeyFsm(
                 else keyOut = 13;
                 NS = CHECK_F;
             end
-            CHECK_F: begin
+            CHECK_F: begin              // 7, 8, 9
                 F = 1;
                 if(C) keyOut = 7;
                 else if(A) keyOut = 8;
@@ -64,7 +68,7 @@ module KeyFsm(
                 else keyOut = 13;
                 NS = CHECK_D;
             end
-            CHECK_D: begin
+            CHECK_D: begin              // *, 0, #      (keypad "digits" represented as values xA, 0, xB)
                 D = 1;
                 if(C) keyOut = 10;
                 else if(A) keyOut = 0;
@@ -72,7 +76,7 @@ module KeyFsm(
                 else keyOut = 13;
                 NS = CHECK_B;
             end
-            default: begin
+            default: begin              // Should never get to this state.
                 keyOut = 13; 
                 NS = CHECK_B;
             end  

@@ -37,12 +37,12 @@ module KeyPadDriver_tb(
     end
     
     initial begin
-        #5;
+        #5;     // Wait 5 ns, then put C high while the FSM is in State CHECK_G --> 4  pressed
         C = 1;
         #20;
-        C = 0;
+        C = 0;  // Finished with State CHECK_G, so this would go low again.     --> 13  "pressed"
         #80;
-        C = 1;
+        C = 1;  // Put C high for CHECK_F                                       --> 7  pressed
         #20;
         C = 0;
         
