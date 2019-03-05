@@ -22,35 +22,38 @@
 
 module InterruptFsm(
     input clk, press,
-    output logic interrupt
+    output logic interrupt = 0
     );
     
     typedef enum{START, INTERRUPT, RELOAD} State;
-    State NS = START, PS = START;
+    State NS, PS = START;
     
     logic [2:0] cycleCounter = 0;
     always_ff @(posedge clk) begin
-        PS <= NS;
+        PS = NS;
+        if(PS == INTERRUPT) begin
+            cycleCounter++;
+        end
+        else begin
+            cycleCounter = 0;
+        end
+    end
+    
+    always_comb begin
         case(PS)
-            START: begin                        // Loops until key "press" signal is received
-                if(press) NS <= INTERRUPT;
-                else NS <= START;
+            START: begin
+                if(press) NS = INTERRUPT;
+                else NS = START;
             end
-            INTERRUPT: begin                    // Outputs interrupt high for 60ns, then goes to RELOAD
-                interrupt <= 1;
-                
-                cycleCounter <= cycleCounter + 1;
-                if(cycleCounter < 6) NS <= INTERRUPT;
-                else begin
-                    NS <= RELOAD;
-                    if(!press) NS <= START;
-                    cycleCounter = 0;
-                end
+            INTERRUPT: begin
+                interrupt = 1;
+                if(cycleCounter < 6) NS = INTERRUPT;
+                else NS = RELOAD;
             end
-            RELOAD: begin                       // Interrupt low, doesn't return to START until "press" turns off.
-                interrupt <= 0;
-                if(press) NS <= RELOAD;
-                else NS <= START;
+            RELOAD: begin
+                interrupt = 0;
+                if(press) NS = RELOAD;
+                else NS = START;
             end
         endcase
     end
