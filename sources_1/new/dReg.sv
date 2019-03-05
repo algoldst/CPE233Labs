@@ -20,15 +20,14 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module DReg #(parameter WIDTH=1)(
-    input clk, ld, set, clr,
-    input [WIDTH-1:0] dIn,
-    output logic [WIDTH-1:0] dOut = 0
+module DReg (
+    input clk, ld, 
+    input [3:0] dIn,
+    output logic [3:0] dOut
     );
     always_ff @(posedge clk) begin
-        if (clr) dOut <= 0;
-        else if (set) dOut <= 1;
-        else if (ld) dOut <= dIn;
-        else dOut <= dOut;
+        //if (clr) dOut <= 0;
+        //else if (set) dOut <= 1;
+        if (ld) dOut = dIn;
     end
 endmodule

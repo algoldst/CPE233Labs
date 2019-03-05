@@ -20,21 +20,22 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module KeyPadDriver #(parameter clkDiv = 22727270)(    // Use clkDiv = 22727270 for 22 Hz clkdiv
+module KeyPadDriver #(parameter clkDiv = 227272)(    // Use clkDiv = 2272727 for 22 Hz clkdiv
     input clk,
     input C, A, E,  // columns 0,1,2 << PMOD
     output [7:0] seg,   // sseg segments
     output [3:0] an,    // sseg digit on/off
     output B, G, F, D,  // rows B,G,F,D >> PMOD
-    output interrupt
+    output interrupt,
+    output [3:0] LEDS
     );
     
     // Clock Divider to create 22 MHz Clock //////////////////////////////////
-    logic [22:0] s_clkCounter = 0;
+    logic [26:0] s_clkCounter = 0;
     logic s_clk = 0;
     always_ff @(posedge clk) begin
         s_clkCounter = s_clkCounter + 1;
-        if(s_clkCounter >= clkDiv) begin
+        if(s_clkCounter >= /*clkDiv*/ 22727) begin
             s_clk <= ~s_clk;
             s_clkCounter <= 0;
         end
@@ -44,7 +45,7 @@ module KeyPadDriver #(parameter clkDiv = 22727270)(    // Use clkDiv = 22727270 
     logic [3:0] t_keyOut_imm, t_keyOut;
     logic t_press;
     KeyFsm keyFsm(.clk(s_clk), .C(C), .A(A), .E(E), .B(B), .G(G), .F(F), .D(D), .press(t_press), .keyOut(t_keyOut_imm));
-    DReg #(4) keyPressReg(.clk(s_clk), .dIn(t_keyOut_imm), .ld(t_press), .set(0), .clr(0), .dOut(t_keyOut));
+    DReg keyPressReg(.clk(s_clk), .dIn(t_keyOut_imm), .ld(t_press), .dOut(t_keyOut));
     
     // Interrupt FSM -- Sends interrupt signal for 60ns = 3 MCU clock cycles
     InterruptFsm interruptFsm(.clk(clk), .press(t_press), .interrupt(interrupt));
@@ -52,5 +53,5 @@ module KeyPadDriver #(parameter clkDiv = 22727270)(    // Use clkDiv = 22727270 
     // SSEG Driver
     SevSegDisp sseg(.CLK(clk), .MODE(0), .DATA_IN(t_keyOut), .CATHODES(seg), 
                     .ANODES(an) );  
-    
+    assign LEDS = t_keyOut;
 endmodule

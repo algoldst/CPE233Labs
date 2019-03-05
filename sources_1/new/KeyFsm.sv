@@ -46,34 +46,50 @@ module KeyFsm(
         case(PS)
             CHECK_B: begin              // 1, 2, 3
                 B = 1;
+                //NS = PS;
                 if(C) keyOut = 1;
                 else if(A) keyOut = 2;
                 else if(E) keyOut = 3;
-                else keyOut = 13;
+                else begin 
+                    keyOut = 13;
+                    //NS = CHECK_G;
+                end
                 NS = CHECK_G;
             end
             CHECK_G: begin              // 4, 5, 6
                 G = 1;
+                //NS = PS;
                 if(C) keyOut = 4;
                 else if(A) keyOut = 5;
                 else if(E) keyOut = 6;
-                else keyOut = 13;
+                else begin 
+                    keyOut = 13;
+                    //NS = CHECK_F;
+                end
                 NS = CHECK_F;
             end
             CHECK_F: begin              // 7, 8, 9
                 F = 1;
+                //NS = PS;
                 if(C) keyOut = 7;
                 else if(A) keyOut = 8;
                 else if(E) keyOut = 9;
-                else keyOut = 13;
+                else begin 
+                    keyOut = 13;
+                    //NS = CHECK_D;
+                end
                 NS = CHECK_D;
             end
             CHECK_D: begin              // *, 0, #      (keypad "digits" represented as values xA, 0, xB)
                 D = 1;
+                //NS = PS;
                 if(C) keyOut = 10;
                 else if(A) keyOut = 0;
                 else if(E) keyOut = 11;
-                else keyOut = 13;
+                else begin 
+                    keyOut = 13;
+                    //NS = CHECK_B;
+                end
                 NS = CHECK_B;
             end
             default: begin              // Should never get to this state.

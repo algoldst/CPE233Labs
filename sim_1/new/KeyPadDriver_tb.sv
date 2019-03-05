@@ -28,15 +28,17 @@ module KeyPadDriver_tb(
     logic [3:0] an;    // sseg digit on/off
     logic B, G, F, D;  // rows B,G,F,D >> PMOD
     logic interrupt;
+    logic [3:0] LEDS;
    
     KeyPadDriver #1 keyPadDriver_tb( .* );     // Low number for sim, 22727270 for actual use.
    
     always begin
-        clk <= 0; #5;
-        clk <= 1; #5;
+        clk = 0; #5;
+        clk = 1; #5;
     end
     
     initial begin
+        #83;    // Wait 1 cycle to check setup.
         #5;     // Wait 5 ns, then put C high while the FSM is in State CHECK_G --> 4  pressed
         C = 1;
         #20;
