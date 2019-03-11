@@ -23,11 +23,12 @@
 module KeyPadDriver #(parameter clkDiv = 227272)(    // Use clkDiv = 2272727 for 22 Hz clkdiv
     input clk,
     input C, A, E,  // columns 0,1,2 << PMOD
-    output [7:0] seg,   // sseg segments
-    output [3:0] an,    // sseg digit on/off
+    //output [7:0] seg,   // sseg segments
+    //output [3:0] an,    // sseg digit on/off
     output B, G, F, D,  // rows B,G,F,D >> PMOD
     output interrupt,
-    output [3:0] LEDS
+    output [3:0] data
+    //output [3:0] LEDS
     );
     
     // Clock Divider to create 22 MHz Clock //////////////////////////////////
@@ -51,7 +52,8 @@ module KeyPadDriver #(parameter clkDiv = 227272)(    // Use clkDiv = 2272727 for
     InterruptFsm interruptFsm(.clk(clk), .press(t_press), .interrupt(interrupt));
     
     // SSEG Driver
-    SevSegDisp sseg(.CLK(clk), .MODE(0), .DATA_IN(t_keyOut), .CATHODES(seg), 
-                    .ANODES(an) );  
-    assign LEDS = t_keyOut;
+//    SevSegDisp sseg(.CLK(clk), .MODE(0), .DATA_IN(t_keyOut), .CATHODES(seg), 
+//                    .ANODES(an) );  
+//    assign LEDS = t_keyOut;
+    assign data = t_keyOut;
 endmodule

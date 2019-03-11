@@ -17,9 +17,12 @@ module Rat_Wrapper(
     input BTNC,
     input BTNL,
     input [7:0] SWITCHES,
+    input A, C, E,
+    output B, D, F, G,
     output [7:0] LEDS,
     output [7:0] SSEG, // SSEG segments
     output [3:0] DISP_EN // SSEG on/off
+    , output interruptPMOD
     //, output debouncePmod, interruptPmod // for debugging / seeing interrupt on scope
     );
     
@@ -28,11 +31,14 @@ module Rat_Wrapper(
     // In future labs you can add more port IDs, and you'll have
     // to add constants here for the mux below
     localparam SWITCHES_ID = 8'h20;
+    localparam KEYPAD_ID   = 8'h80;
+    logic [3:0]   r_keypad;
        
     // OUTPUT PORT IDS ///////////////////////////////////////////////////////
     // In future labs you can add more port IDs
     localparam LEDS_ID      = 8'h40;
     localparam SSEG_ID      = 8'h81;
+    localparam SPEAKER_ID   = 8'h82;
        
     // Signals for connecting RAT_MCU to RAT_wrapper /////////////////////////
     logic [7:0] s_output_port;
@@ -47,6 +53,8 @@ module Rat_Wrapper(
     logic [7:0]   s_input_port;
     logic [7:0]   r_leds = 8'h00;
     logic [15:0]   r_sseg = 8'h00;
+    logic [5:0]   r_speaker = 8'h00;
+
 
     // Declare RAT_CPU ///////////////////////////////////////////////////////
     MCU MCU(.in_port(s_input_port), .out_port(s_output_port),
@@ -63,6 +71,8 @@ module Rat_Wrapper(
     always_comb begin
         if (s_port_id == SWITCHES_ID)
             s_input_port = SWITCHES;
+        else if (s_port_id == KEYPAD_ID)
+            s_input_port = r_keypad;
         else
             s_input_port = 8'h00;
     end
@@ -75,6 +85,8 @@ module Rat_Wrapper(
                 r_leds <= s_output_port;
             else if (s_port_id == SSEG_ID)
                 r_sseg <= s_output_port;
+            else if (s_port_id == SPEAKER_ID)
+                r_speaker <= s_output_port;
         end
     end
      
@@ -83,14 +95,19 @@ module Rat_Wrapper(
     //assign s_interrupt = 1'b0;  // no interrupt used yet
      
     // Output Assignments ////////////////////////////////////////////////////
-    assign LEDS = r_leds;
+    //assign LEDS = r_leds;
+    assign LEDS = r_keypad;
     
     // SSEG Display    ////////////////////////////////////////////////////
     SevSegDisp sseg(.CLK(CLK), .MODE(1), .DATA_IN(r_sseg), .CATHODES(SSEG), 
                     .ANODES(DISP_EN) );  
+    
+    KeyPadDriver keypad_driver( .clk(CLK), .C(C), .A(A), .E(E), .B(B), .G(G), 
+                                .F(F), .D(D), .interrupt(s_interrupt), .data(r_keypad) );
+    assign interruptPMOD = s_interrupt;
     // Debounce Circuit
     //logic t_btnL = BTNL;                  // for debug
-    Debounce debounce(.CLK(s_clk_50), .BTN(BTNL), .DB_BTN(s_interrupt));
+    //Debounce debounce(.CLK(s_clk_50), .BTN(BTNL), .DB_BTN(s_interrupt));
     
     //assign interruptPmod = t_btnL;        // for debug
     //assign debouncePmod = s_interrupt;    // for debug
