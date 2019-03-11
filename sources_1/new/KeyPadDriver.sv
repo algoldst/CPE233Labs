@@ -27,7 +27,8 @@ module KeyPadDriver #(parameter clkDiv = 227272)(    // Use clkDiv = 2272727 for
     //output [3:0] an,    // sseg digit on/off
     output B, G, F, D,  // rows B,G,F,D >> PMOD
     output interrupt,
-    output [3:0] data
+    output [3:0] data,
+    output [2:0] statePMOD
     //output [3:0] LEDS
     );
     
@@ -49,7 +50,7 @@ module KeyPadDriver #(parameter clkDiv = 227272)(    // Use clkDiv = 2272727 for
     DReg keyPressReg(.clk(s_clk), .dIn(t_keyOut_imm), .ld(t_press), .dOut(t_keyOut));
     
     // Interrupt FSM -- Sends interrupt signal for 60ns = 3 MCU clock cycles
-    InterruptFsm interruptFsm(.clk(clk), .press(t_press), .interrupt(interrupt));
+    InterruptFsm interruptFsm(.clk(clk), .press(t_press), .interrupt(interrupt), .statePMOD(statePMOD) );
     
     // SSEG Driver
 //    SevSegDisp sseg(.CLK(clk), .MODE(0), .DATA_IN(t_keyOut), .CATHODES(seg), 
